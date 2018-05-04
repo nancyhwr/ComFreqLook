@@ -13,10 +13,10 @@ from itertools import islice
 # 18-05-02 Haoran
 #input: csv file with sequence records
 #output the most common top n frequency with lenghth k
-#
 
-## find the c most common subsequences with lenghth n from a given token list
-## params; n:n-grams; c:top c subsequencies; 
+
+# find the c most common subsequences with lenghth n from a given token list
+# n:n-grams; c:top c subsequencies; 
 def count_seq(tokens, n, c):
 	k_gramfdist = FreqDist()
 	k_grams = ngrams(tokens, n)
@@ -24,9 +24,8 @@ def count_seq(tokens, n, c):
 	return k_gramfdist.most_common(c)
 
 
-
-## common_list: a list of tuple (subsequence, frequency)
-## add each subsequnce into a dictionary and record the cummulated frequency
+# add each subsequnce into a dictionary (common_dict) with cummulated frequency
+# common_list: a list of tuple (subsequence, frequency)
 def make_dict(common_list, common_dict):
 
 	for el in common_list:
@@ -36,9 +35,9 @@ def make_dict(common_list, common_dict):
 			common_dict[el[0]] = common_dict[el[0]]+el[1]
 	
 
-## read a csv file row by row to find all subsequences and the frequencies and add it to a dictionary
-## params: addr: file address; n: n-gram; c:top c
-## pos_dict: label = 1; neg_dict: label = 0
+# from a csv to find all subsequences and the frequencies and add it to a dictionary
+# addr: file address; n: n-gram; c:top c
+# pos_dict: label = 1; neg_dict: label = 0
 def build_subseq(addr, n, c):
 
 	count = 0
@@ -61,7 +60,7 @@ def build_subseq(addr, n, c):
 				return
 
 
-## common_dict: the dictionary including all subsequnce; top_c: integer, the most common subsequence
+# common_dict: the dictionary including all subsequnce; top_c: integer, the most common subsequence
 def top_subseq(common_dict, top_c):
 	return list(islice(common_dict, top_c))
 
@@ -84,13 +83,13 @@ def top_subseq(common_dict, top_c):
 # 				make_dict(common_seq, neg_dict)
 			
 
-pos_dict = {}
-neg_dict = {}
+pos_dict = {} # label=1
+neg_dict = {} # label=0
 address = '/Users/nancy/Documents/IQVIA/data1.csv'
-n = 5
-len_row = 76
-c = len_row - n + 1
-top_c = 10
+n = 5 # subsequnce length
+len_row = 76 # length of a row
+c = len_row - n + 1 # number of subsequences with length=5 in each row
+top_c = 10 # top 10 most common
 
 build_subseq(address, n, c)
 pos_dict = sorted(pos_dict.items(), key = itemgetter(1), reverse = True)
